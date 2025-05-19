@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | MediOrder</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --secondary: #10b981;
+      --accent: #f43f5e;
+      --background: #f9fafb;
+      --foreground: #1f2937;
+      --card: #ffffff;
+      --card-foreground: #1f2937;
+      --border: #e5e7eb;
+      --input: #e5e7eb;
+      --ring: #3b82f6;
+      --radius: 0.5rem;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.5;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: var(--card);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .logo img {
+      height: 2rem;
+      margin-right: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      color: white;
+      padding: 4rem 1rem;
+      text-align: center;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+
+    /* Filter Section */
+    .filters {
+      background-color: var(--card);
+      padding: 1rem;
+      margin: 2rem auto;
+      max-width: 1200px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .filter-group label {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .filter-group select,
+    .filter-group input {
+      padding: 0.5rem;
+      border: 1px solid var(--input);
+      border-radius: var(--radius);
+      background-color: white;
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    /* Products Section */
+    .products {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 3rem;
+      height: 0.25rem;
+      background-color: var(--primary);
+      border-radius: 1rem;
+    }
+
+    .view-options {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .view-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      color: var(--foreground);
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+
+    .view-btn.active {
+      opacity: 1;
+      color: var(--primary);
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Product Card */
+    .product-card {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .product-image {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
+    }
+
+    .product-content {
+      padding: 1.5rem;
+    }
+
+    .product-category {
+      font-size: 0.8rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--foreground);
+    }
+
+    .product-description {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 1rem;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .product-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .product-stock {
+      font-size: 0.8rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 1rem;
+      font-weight: 500;
+    }
+
+    .in-stock {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .low-stock {
+      background-color: #fef9c3;
+      color: #854d0e;
+    }
+
+    .out-of-stock {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .stars {
+      color: #f59e0b;
+      font-size: 0.9rem;
+    }
+
+    .rating-count {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .product-actions .btn {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Product List View */
+    .product-list-item {
+      display: flex;
+      background-color: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-list-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .product-list-item .product-image {
+      width: 200px;
+      height: auto;
+    }
+
+    .product-list-item .product-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-list-item .product-actions {
+      margin-top: auto;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 3rem 0;
+    }
+
+    .pagination-btn {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: var(--radius);
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pagination-btn:hover {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .pagination-btn.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1f2937;
+      color: white;
+      padding: 3rem 1rem;
+      margin-top: 4rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 2rem;
+      height: 0.15rem;
+      background-color: var(--primary);
+      border-radius: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid #374151;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+
+    /* Product Detail Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      background-color: var(--card);
+      margin: 2rem auto;
+      max-width: 900px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      animation: modalFadeIn 0.3s;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #6b7280;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--foreground);
+    }
+
+    .modal-body {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .modal-image {
+      flex: 1;
+      min-width: 300px;
+      padding: 1.5rem;
+    }
+
+    .modal-image img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+    }
+
+    .modal-details {
+      flex: 1;
+      min-width: 300px;
+      padding: 1.5rem;
+    }
+
+    .modal-category {
+      font-size: 0.9rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-product-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .modal-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .modal-description {
+      margin-bottom: 1.5rem;
+      color: #4b5563;
+    }
+
+    .modal-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-bottom: 0.25rem;
+    }
+
+    .meta-value {
+      font-weight: 500;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quantity-btn {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: var(--radius);
+      background-color: #f3f4f6;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quantity-btn:hover {
+      background-color: #e5e7eb;
+    }
+
+    .quantity-input {
+      width: 3rem;
+      height: 2.5rem;
+      text-align: center;
+      border: 1px solid var(--input);
+      border-radius: var(--radius);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .modal-actions .btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+    }
+
+    .modal-footer {
+      padding: 1.5rem;
+      border-top: 1px solid var(--border);
+      background-color: #f9fafb;
+    }
+
+    .product-tabs {
+      display: flex;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 1rem;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-content {
+      padding: 1.5rem 0;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .nav-links, .auth-buttons {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .mobile-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--card);
+        padding: 1rem;
+        box-shadow: var(--shadow-md);
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu.active {
+        display: block;
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .mobile-menu .auth-buttons {
+        display: flex;
+        margin-top: 1rem;
+      }
+
+      .product-list-item {
+        flex-direction: column;
+      }
+
+      .product-list-item .product-image {
+        width: 100%;
+        height: 200px;
+      }
+
+      .modal-body {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .pagination {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <a href="/" class="logo">
+        <img src="/images/logo.png" alt="MediOrder Logo">
+        MediOrder
+      </a>
+      
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/products" class="active">Products</a>
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      
+      <div class="auth-buttons">
+        <a href="/cart" class="btn btn-outline">
+          <i class="fas fa-shopping-cart"></i> Cart
+        </a>
+        <a href="/login" class="btn btn-primary">Sign In</a>
+      </div>
+      
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <a href="/">Home</a>
+      <a href="/products" class="active">Products</a>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+      
+      <div class="auth-buttons">
+        <a href="/cart" class="btn btn-outline">
+          <i class="fas fa-shopping-cart"></i> Cart
+        </a>
+        <a href="/login" class="btn btn-primary">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <h1>Our Products</h1>
+      <p>Browse our wide range of high-quality medicines and healthcare products</p>
+    </div>
+  </section>
+
+  <!-- Filters Section -->
+  <section class="filters">
+    <div class="filter-container">
+      <div class="filter-group">
+        <label for="category">Category</label>
+        <select id="category">
+          <option value="">All Categories</option>
+          <option value="pain-relief">Pain Relief</option>
+          <option value="antibiotics">Antibiotics</option>
+          <option value="vitamins">Vitamins & Supplements</option>
+          <option value="cardiovascular">Cardiovascular</option>
+          <option value="diabetes">Diabetes Care</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="sort">Sort By</label>
+        <select id="sort">
+          <option value="popularity">Popularity</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="newest">Newest First</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="price-range">Price Range</label>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="number" id="min-price" placeholder="Min" min="0">
+          <input type="number" id="max-price" placeholder="Max" min="0">
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <label for="availability">Availability</label>
+        <select id="availability">
+          <option value="">All</option>
+          <option value="in-stock">In Stock</option>
+          <option value="out-of-stock">Out of Stock</option>
+        </select>
+      </div>
+      
+      <div class="filter-actions">
+        <button class="btn btn-primary">Apply Filters</button>
+        <button class="btn btn-outline">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products">
+    <div class="section-header">
+      <h2 class="section-title">All Products</h2>
+      <div class="view-options">
+        <button class="view-btn active" id="grid-view">
+          <i class="fas fa-th"></i>
+        </button>
+        <button class="view-btn" id="list-view">
+          <i class="fas fa-list"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Product Grid View (Default) -->
+    <div class="product-grid" id="product-grid">
+      <!-- Product Card 1 -->
+      <div class="product-card" data-id="1">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/02/foxiga.jpg" alt="Paracetamol">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Pain Relief</div>
+          <h3 class="product-title">Paracetamol</h3>
+          <p class="product-description">Pain reliever and fever reducer for mild to moderate pain.</p>
+          <div class="product-meta">
+            <div class="product-price">₹50</div>
+            <div class="product-stock in-stock">In Stock: 100</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★★</div>
+            <span class="rating-count">(120 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="1">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="1">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Card 2 -->
+      <div class="product-card" data-id="2">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/03/neuro-med.jpg" alt="Amoxicillin">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Antibiotics</div>
+          <h3 class="product-title">Amoxicillin</h3>
+          <p class="product-description">Antibiotic used to treat bacterial infections.</p>
+          <div class="product-meta">
+            <div class="product-price">₹120</div>
+            <div class="product-stock in-stock">In Stock: 75</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★☆</div>
+            <span class="rating-count">(85 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="2">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="2">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Card 3 -->
+      <div class="product-card" data-id="3">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/04/immune-boost.jpg" alt="Vitamin C">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Vitamins & Supplements</div>
+          <h3 class="product-title">Vitamin C</h3>
+          <p class="product-description">Dietary supplement for immune support and overall health.</p>
+          <div class="product-meta">
+            <div class="product-price">₹80</div>
+            <div class="product-stock in-stock">In Stock: 200</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★★</div>
+            <span class="rating-count">(150 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="3">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="3">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Card 4 -->
+      <div class="product-card" data-id="4">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/05/pain-relief.jpg" alt="Aspirin">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Pain Relief</div>
+          <h3 class="product-title">Aspirin</h3>
+          <p class="product-description">Blood thinner and pain reliever for various conditions.</p>
+          <div class="product-meta">
+            <div class="product-price">₹45</div>
+            <div class="product-stock in-stock">In Stock: 150</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★☆</div>
+            <span class="rating-count">(95 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="4">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="4">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Card 5 -->
+      <div class="product-card" data-id="5">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/06/cardio-med.jpg" alt="Atorvastatin">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Cardiovascular</div>
+          <h3 class="product-title">Atorvastatin</h3>
+          <p class="product-description">Medication to lower cholesterol and reduce heart disease risk.</p>
+          <div class="product-meta">
+            <div class="product-price">₹180</div>
+            <div class="product-stock low-stock">Low Stock: 15</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★☆</div>
+            <span class="rating-count">(78 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="5">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="5">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Card 6 -->
+      <div class="product-card" data-id="6">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/07/diabetes-med.jpg" alt="Metformin">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Diabetes Care</div>
+          <h3 class="product-title">Metformin</h3>
+          <p class="product-description">Oral medication to control blood sugar levels in type 2 diabetes.</p>
+          <div class="product-meta">
+            <div class="product-price">₹95</div>
+            <div class="product-stock in-stock">In Stock: 120</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★☆</div>
+            <span class="rating-count">(110 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="6">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="6">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Card 7 -->
+      <div class="product-card" data-id="7">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/08/allergy-med.jpg" alt="Cetirizine">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Allergy Relief</div>
+          <h3 class="product-title">Cetirizine</h3>
+          <p class="product-description">Antihistamine for allergy symptoms like sneezing and itching.</p>
+          <div class="product-meta">
+            <div class="product-price">₹65</div>
+            <div class="product-stock in-stock">In Stock: 90</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★☆</div>
+            <span class="rating-count">(65 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="7">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="7">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Card 8 -->
+      <div class="product-card" data-id="8">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/09/antacid-med.jpg" alt="Omeprazole">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Digestive Health</div>
+          <h3 class="product-title">Omeprazole</h3>
+          <p class="product-description">Proton pump inhibitor to reduce stomach acid production.</p>
+          <div class="product-meta">
+            <div class="product-price">₹110</div>
+            <div class="product-stock out-of-stock">Out of Stock</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★☆</div>
+            <span class="rating-count">(88 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="8">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="8" disabled>
+              <i class="fas fa-shopping-cart"></i> Out of Stock
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Product List View (Hidden by Default) -->
+    <div class="product-list" id="product-list" style="display: none;">
+      <!-- Product List Item 1 -->
+      <div class="product-list-item" data-id="1">
+        <div class="product-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/02/foxiga.jpg" alt="Paracetamol">
+        </div>
+        <div class="product-content">
+          <div class="product-category">Pain Relief</div>
+          <h3 class="product-title">Paracetamol</h3>
+          <p class="product-description">Pain reliever and fever reducer for mild to moderate pain. Effective for headaches, toothaches, backaches, menstrual cramps, and minor arthritis pain.</p>
+          <div class="product-meta">
+            <div class="product-price">₹50</div>
+            <div class="product-stock in-stock">In Stock: 100</div>
+          </div>
+          <div class="product-rating">
+            <div class="stars">★★★★★</div>
+            <span class="rating-count">(120 reviews)</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-outline view-details" data-id="1">
+              <i class="fas fa-eye"></i> Details
+            </button>
+            <button class="btn btn-primary add-to-cart" data-id="1">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Additional list items would follow the same pattern -->
+    </div>
+    
+    <!-- Pagination -->
+    <div class="pagination">
+      <button class="pagination-btn">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="pagination-btn active">1</button>
+      <button class="pagination-btn">2</button>
+      <button class="pagination-btn">3</button>
+      <button class="pagination-btn">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- Product Detail Modal -->
+  <div class="modal" id="product-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Product Details</h2>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-image">
+          <img src="https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/02/foxiga.jpg" alt="Product Image" id="modal-product-image">
+        </div>
+        <div class="modal-details">
+          <div class="modal-category" id="modal-category">Pain Relief</div>
+          <h3 class="modal-product-title" id="modal-product-title">Paracetamol</h3>
+          <div class="modal-price" id="modal-price">₹50</div>
+          <p class="modal-description" id="modal-description">
+            Pain reliever and fever reducer for mild to moderate pain. Effective for headaches, toothaches, backaches, menstrual cramps, and minor arthritis pain.
+          </p>
+          <div class="modal-meta">
+            <div class="meta-item">
+              <span class="meta-label">Availability</span>
+              <span class="meta-value" id="modal-stock">In Stock: 100</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">SKU</span>
+              <span class="meta-value" id="modal-sku">MED-PR-001</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Brand</span>
+              <span class="meta-value" id="modal-brand">MediCare</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Rating</span>
+              <span class="meta-value" id="modal-rating">
+                <div class="stars">★★★★★</div>
+                <span class="rating-count">(120 reviews)</span>
+              </span>
+            </div>
+          </div>
+          <div class="quantity-control">
+            <button class="quantity-btn" id="decrease-quantity">-</button>
+            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="100">
+            <button class="quantity-btn" id="increase-quantity">+</button>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="modal-add-to-cart">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-heart"></i> Add to Wishlist
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="product-tabs">
+          <button class="tab-btn active" data-tab="description">Description</button>
+          <button class="tab-btn" data-tab="details">Details</button>
+          <button class="tab-btn" data-tab="reviews">Reviews</button>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane active" id="description">
+            <p>Paracetamol is a widely used over-the-counter pain reliever (analgesic) and fever reducer (antipyretic). It is commonly used for the relief of mild to moderate pain such as headache, backache, and menstrual cramps.</p>
+            <p>Unlike NSAIDs such as aspirin and ibuprofen, paracetamol does not have anti-inflammatory properties, which means it doesn't reduce inflammation. It is generally considered safer than other pain relievers, especially for those who are sensitive to NSAIDs.</p>
+          </div>
+          <div class="tab-pane" id="details">
+            <ul>
+              <li><strong>Active Ingredient:</strong> Paracetamol (Acetaminophen)</li>
+              <li><strong>Dosage Form:</strong> Tablets</li>
+              <li><strong>Strength:</strong> 500mg</li>
+              <li><strong>Package Size:</strong> 20 tablets</li>
+              <li><strong>Storage:</strong> Store below 30°C in a dry place, protected from light</li>
+              <li><strong>Prescription Required:</strong> No</li>
+            </ul>
+          </div>
+          <div class="tab-pane" id="reviews">
+            <div class="review-summary">
+              <div class="average-rating">
+                <div class="rating-number">4.8</div>
+                <div class="stars">★★★★★</div>
+                <div class="total-reviews">Based on 120 reviews</div>
+              </div>
+              <div class="rating-breakdown">
+                <div class="rating-bar">
+                  <span>5 Stars</span>
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 80%"></div>
+                  </div>
+                  <span>96</span>
+                </div>
+                <div class="rating-bar">
+                  <span>4 Stars</span>
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 15%"></div>
+                  </div>
+                  <span>18</span>
+                </div>
+                <div class="rating-bar">
+                  <span>3 Stars</span>
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 5%"></div>
+                  </div>
+                  <span>6</span>
+                </div>
+                <div class="rating-bar">
+                  <span>2 Stars</span>
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 0%"></div>
+                  </div>
+                  <span>0</span>
+                </div>
+                <div class="rating-bar">
+                  <span>1 Star</span>
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 0%"></div>
+                  </div>
+                  <span>0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>MediOrder</h3>
+        <p>Your trusted online pharmacy for all your healthcare needs. We provide high-quality medicines and healthcare products at affordable prices.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/blog">Blog</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Categories</h3>
+        <ul class="footer-links">
+          <li><a href="/products?category=pain-relief">Pain Relief</a></li>
+          <li><a href="/products?category=antibiotics">Antibiotics</a></li>
+          <li><a href="/products?category=vitamins">Vitamins & Supplements</a></li>
+          <li><a href="/products?category=cardiovascular">Cardiovascular</a></li>
+          <li><a href="/products?category=diabetes">Diabetes Care</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <ul class="footer-links">
+          <li><i class="fas fa-map-marker-alt"></i> 123 Medical Street, Health City</li>
+          <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+          <li><i class="fas fa-envelope"></i> info@mediorder.com</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      &copy; 2025 MediOrder. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile Menu Toggle
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const mobileMenu = document.querySelector('.mobile-menu');
+      
+      if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
+          mobileMenu.classList.toggle('active');
+          mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') ? 
+            '<i class="fas fa-times"></i>' : 
+            '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+          if (!mobileMenuBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+          }
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+          });
+        });
+      }
+      
+      // View Toggle (Grid/List)
+      const gridViewBtn = document.getElementById('grid-view');
+      const listViewBtn = document.getElementById('list-view');
+      const productGrid = document.getElementById('product-grid');
+      const productList = document.getElementById('product-list');
+      
+      if (gridViewBtn && listViewBtn && productGrid && productList) {
+        gridViewBtn.addEventListener('click', function() {
+          gridViewBtn.classList.add('active');
+          listViewBtn.classList.remove('active');
+          productGrid.style.display = 'grid';
+          productList.style.display = 'none';
+        });
+        
+        listViewBtn.addEventListener('click', function() {
+          listViewBtn.classList.add('active');
+          gridViewBtn.classList.remove('active');
+          productList.style.display = 'flex';
+          productGrid.style.display = 'none';
+        });
+      }
+      
+      // Product Modal
+      const modal = document.getElementById('product-modal');
+      const modalClose = document.querySelector('.modal-close');
+      const viewDetailsButtons = document.querySelectorAll('.view-details');
+      
+      if (modal && modalClose && viewDetailsButtons) {
+        viewDetailsButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            openProductModal(productId);
+          });
+        });
+        
+        modalClose.addEventListener('click', function() {
+          modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(event) {
+          if (event.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      }
+      
+      // Quantity Controls in Modal
+      const decreaseBtn = document.getElementById('decrease-quantity');
+      const increaseBtn = document.getElementById('increase-quantity');
+      const quantityInput = document.getElementById('quantity');
+      
+      if (decreaseBtn && increaseBtn && quantityInput) {
+        decreaseBtn.addEventListener('click', function() {
+          let value = parseInt(quantityInput.value);
+          if (value > 1) {
+            quantityInput.value = value - 1;
+          }
+        });
+        
+        increaseBtn.addEventListener('click', function() {
+          let value = parseInt(quantityInput.value);
+          let max = parseInt(quantityInput.getAttribute('max'));
+          if (value < max) {
+            quantityInput.value = value + 1;
+          }
+        });
+      }
+      
+      // Tab Controls in Modal
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      
+      if (tabButtons && tabPanes) {
+        tabButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and panes
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            
+            // Add active class to current button and pane
+            this.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+          });
+        });
+      }
+      
+      // Add to Cart Functionality
+      const addToCartButtons = document.querySelectorAll('.add-to-cart');
+      
+      if (addToCartButtons) {
+        addToCartButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            addToCart(productId, 1);
+          });
+        });
+      }
+      
+      // Modal Add to Cart Button
+      const modalAddToCartBtn = document.getElementById('modal-add-to-cart');
+      
+      if (modalAddToCartBtn) {
+        modalAddToCartBtn.addEventListener('click', function() {
+          const productId = this.getAttribute('data-product-id');
+          const quantity = parseInt(document.getElementById('quantity').value);
+          addToCart(productId, quantity);
+        });
+      }
+      
+      // Function to open product modal
+      function openProductModal(productId) {
+        // In a real application, you would fetch product details from an API
+        // For this example, we'll use hardcoded data
+        
+        // Set product ID for the modal add to cart button
+        document.getElementById('modal-add-to-cart').setAttribute('data-product-id', productId);
+        
+        // Update modal content based on product ID
+        // This would typically come from an API or database
+        const productData = {
+          1: {
+            title: 'Paracetamol',
+            category: 'Pain Relief',
+            price: '₹50',
+            description: 'Pain reliever and fever reducer for mild to moderate pain. Effective for headaches, toothaches, backaches, menstrual cramps, and minor arthritis pain.',
+            stock: 'In Stock: 100',
+            sku: 'MED-PR-001',
+            brand: 'MediCare',
+            image: 'https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2021/02/foxiga.jpg'
+          },
+          // Add more products as needed
+        };
+        
+        // Get product data or use default if not found
+        const product = productData[productId] || productData[1];
+        
+        // Update modal content
+        document.getElementById('modal-product-title').textContent = product.title;
+        document.getElementById('modal-category').textContent = product.category;
+        document.getElementById('modal-price').textContent = product.price;
+        document.getElementById('modal-description').textContent = product.description;
+        document.getElementById('modal-stock').textContent = product.stock;
+        document.getElementById('modal-sku').textContent = product.sku;
+        document.getElementById('modal-brand').textContent = product.brand;
+        document.getElementById('modal-product-image').src = product.image;
+        
+        // Reset quantity to 1
+        document.getElementById('quantity').value = 1;
+        
+        // Show modal
+        modal.style.display = 'block';
+      }
+      
+      // Function to add product to cart
+      function addToCart(productId, quantity) {
+        // In a real application, you would add the product to a cart in localStorage or send to an API
+        console.log(`Added product ID ${productId} to cart with quantity ${quantity}`);
+        
+        // Get existing cart from localStorage or create empty array
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Check if product already exists in cart
+        const existingProductIndex = cart.findIndex(item => item.id === productId);
+        
+        if (existingProductIndex !== -1) {
+          // Update quantity if product already in cart
+          cart[existingProductIndex].quantity += quantity;
+        } else {
+          // Add new product to cart
+          cart.push({
+            id: productId,
+            quantity: quantity
+          });
+        }
+        
+        // Save updated cart to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // Show success message
+        alert('Product added to cart successfully!');
+      }
+    });
+  </script>
+</body>
+</html>
